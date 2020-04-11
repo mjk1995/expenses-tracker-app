@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Filter Expenses</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCancel()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">From</ion-label>
+            <ion-datetime
+              display-format="DD MM YYYY"
+              picker-format="DD MM YYYY"
+              [min]="startDate.toISOString()"
+              [max]="endDate.toISOString()"
+              formControlName="dateFrom"
+              required
+              #startDateCtrl
+            ></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">To</ion-label>
+            <ion-datetime
+              display-format="DD MM YYYY"
+              picker-format="DD MM YYYY"
+              [min]="startDateCtrl.value"
+              [max]="endDate.toISOString()"
+              formControlName="dateTo"
+              required
+            ></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Expense Type</ion-label>
+            <ion-select formControlName="expenseType">
+              <ion-select-option value="All">All</ion-select-option>
+              <ion-select-option value="Food">Food</ion-select-option>
+              <ion-select-option value="Accommodation"
+                >Accommodation</ion-select-option
+              >
+              <ion-select-option value="Transport">Transport</ion-select-option>
+              <ion-select-option value="Other">Other</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button
+            (click)="onFilter()"
+            color="primary"
+            expand="block"
+            [disabled]="!form.valid"
+            >Apply Filters</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

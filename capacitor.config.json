@@ -1,0 +1,8 @@
+{
+  "appId": "com.tracker.expense",
+  "appName": "expense-tracker-app",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

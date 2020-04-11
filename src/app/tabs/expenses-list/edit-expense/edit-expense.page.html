@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCancel(expense.id)">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center">
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Title</ion-label>
+            <ion-input
+              type="text"
+              formControlName="title"
+              autocorrect
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Amount (GBP)</ion-label>
+            <ion-input
+              type="number"
+              inputmode="numeric"
+              formControlName="amount"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!form.get('amount').valid && form.get('amount').touched">
+        <ion-col size-sm="6" offset-sm="3">
+          <p>Must be > 0.</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="3" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Expense Date</ion-label>
+            <ion-datetime
+              display-format="DD MM YYYY"
+              picker-format="DD MM YYYY"
+              formControlName="expenseDate"
+            ></ion-datetime
+            >>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Expense Type</ion-label>
+            <ion-select formControlName="expenseType">
+              <ion-select-option value="Food">Food</ion-select-option>
+              <ion-select-option value="Accommodation"
+                >Accommodation</ion-select-option
+              >
+              <ion-select-option value="Transport">Transport</ion-select-option>
+              <ion-select-option value="Other">Other</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <div><br><br></div>
+      <div *ngIf="showImage">
+        <ion-row>
+          <ion-col size-sm="6" offset-sm="3">
+            <div class="picker">
+            <ion-img class="image" [src]="expense.image"></ion-img>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-row *ngIf="!showImage">
+        <ion-col size-sm="6" offset-sm="3">
+          <app-image-picker
+            [showPreview]="form.get('image').value"
+            (imageData)="onImagePicked($event)"
+          ></app-image-picker>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="this.imageTimeStamp && form.get('image').value">
+        <ion-col size-sm="6" offset-sm="3" *ngIf="this.imageTimeStamp">
+          <p><strong>TimeStamp:</strong> {{ this.imageTimeStamp }}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="form.get('image').value">
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button (click)="onRemoveImage()" color="danger"
+            >Remove Image</ion-button
+          >
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Notes (optional)</ion-label>
+            <ion-textarea
+              rows="3"
+              formControlName="notes"
+              autocorrect
+            ></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!form.get('notes').valid && form.get('notes').touched">
+        <ion-col size-sm="6" offset-sm="3">
+          <p>Must be less than 180 characters</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-button
+            (click)="onEditExpense(expense.id)"
+            color="primary"
+            expand="block"
+            [disabled]="!form.valid || !form.get('image').value"
+            >Submit</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
